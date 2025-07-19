@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Environment files
+.env
+
+# Data files (optional: exclude large raw data files if needed)
+data/
+
+#Project Notes
+Notes
