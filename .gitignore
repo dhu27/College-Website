@@ -13,3 +13,6 @@ data/
 
 #Project Notes
 Notes
+
+#table migration logs
+migrations/
