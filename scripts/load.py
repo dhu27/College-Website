@@ -13,9 +13,12 @@ CSV_PATH = os.path.join("data", "college_data_filtered.csv")
 
 def parse_float(value):
     try:
+        if not value or value.strip().lower() in ("null", "privacySuppressed", "privacysuppressed"):
+            return None
         return float(value)
     except (ValueError, TypeError):
         return None
+
 
 def parse_bool(value):
     return str(value).strip() == "1"

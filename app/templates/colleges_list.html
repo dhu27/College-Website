@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Explore Colleges{% endblock %}
+
+{% block content %}
+
+<h1>College Directory</h1>
+
+<form method="get" action="{{ url_for('colleges.college_list') }}">
+  <input type="text" name="q" placeholder="Search by college name..." value="{{ request.args.get('q', '') }}">
+  <button type="submit">Search</button>
+  {% if request.args.get('q') %}
+    <a href="{{ url_for('colleges.college_list') }}">Clear</a>
+  {% endif %}
+</form>
+
+<ul>
+  {% for college in colleges %}
+    <li>
+      <a href="{{ url_for('colleges.college_detail', college_id=college.id) }}">
+        {{ college.name }} — {{ college.city }}, {{ college.state }}
+      </a>
+    </li>
+  {% else %}
+    <li>No colleges found.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

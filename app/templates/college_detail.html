@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}College Details{% endblock %}
+
+{% block content %}
+<!-- colleges/detail.html -->
+
+<h1>{{ college.name }}</h1>
+<p><strong>Location:</strong> {{ college.city }}, {{ college.state }}</p>
+<p><strong>Website:</strong> <a href="https://{{ college.website_url }}" target="_blank">{{ college.website_url }}</a></p>
+<p><strong>Accrediting Agency:</strong> {{ college.accrediting_agency }}</p>
+<p><strong>Undergrad Population:</strong> {{ college.undergrad_population or 'N/A' }}</p>
+<p><strong>Tuition (In-State):</strong> ${{ college.tuition_in_state or 'N/A' }}</p>
+<p><strong>Tuition (Out-of-State):</strong> ${{ college.tuition_out_of_state or 'N/A' }}</p>
+<p><strong>Admission Rate:</strong> {{ (college.admission_rate * 100)|round(1) if college.admission_rate else 'N/A' }}%</p>
+
+{% endblock %}

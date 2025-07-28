@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}College Finder{% endblock %}</title>
+</head>
+<body>
+
+<nav style="display: flex; justify-content: space-between; align-items: center;">
+  <!-- Left side navigation -->
+  <div>
+    <a href="{{ url_for('main.home') }}">Home</a> |
+    <a href="{{ url_for('colleges.college_list') }}">Explore Colleges</a> |
+    <a href="{{ url_for('main.my_colleges') }}">My Colleges</a>
+  </div>
+
+  <!-- Right side login/logout -->
+  <div>
+    {% if current_user.is_authenticated %}
+      Welcome, {{ current_user.first_name or current_user.username}}! |
+      <a href="{{ url_for('auth.logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">Login</a> |
+      <a href="{{ url_for('auth.register') }}">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+<hr>
+
+<div>
+  {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
