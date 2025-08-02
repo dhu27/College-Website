@@ -17,59 +17,86 @@ class User(db.Model, UserMixin):
         return f"<User {self.email}>"
 
 class College(db.Model):
+    __tablename__ = 'college'
     id = db.Column(db.Integer, primary_key=True)
-    unitid = db.Column(db.Integer, unique=True)
-    name = db.Column(db.String(200))
-    city = db.Column(db.String(100))
-    state = db.Column(db.String(2))
-    zip_code = db.Column(db.String(20))
-    latitude = db.Column(db.Float)
-    longitude = db.Column(db.Float)
 
-    website_url = db.Column(db.String(255))
-    net_price_url = db.Column(db.String(255))
-    accrediting_agency = db.Column(db.String(255))
+    unitid = db.Column(db.Integer)
+    name = db.Column(db.String(255))  # INSTNM
+    website = db.Column(db.String(255))  # INSTURL
+    net_price_url = db.Column(db.String(255))  # NPCURL
+    city = db.Column(db.String(255))  # CITY
+    state = db.Column(db.String(255))  # STABBR
+    zip = db.Column(db.String(255))  # ZIP
 
-    control = db.Column(db.Integer)         # 1=Public, 2=Private nonprofit, 3=Private for-profit
-    locale = db.Column(db.Integer)          # Urban/rural code
-    region = db.Column(db.Integer)
-    is_hbcu = db.Column(db.Boolean)
-    is_tribal = db.Column(db.Boolean)
+    latitude = db.Column(db.Float)  # LATITUDE
+    longitude = db.Column(db.Float)  # LONGITUDE
 
-    # Cost & Tuition
-    cost_of_attendance = db.Column(db.Float)
-    tuition_in_state = db.Column(db.Float)
-    tuition_out_of_state = db.Column(db.Float)
+    accrediting_agency = db.Column(db.String(255))  # ACCREDAGENCY
 
-    # Debt & Earnings
-    median_debt = db.Column(db.Float)
-    earnings_income1 = db.Column(db.Float)
-    earnings_income2 = db.Column(db.Float)
-    earnings_income3 = db.Column(db.Float)
+    school_degree = db.Column(db.Integer)  # SCH_DEG
+    highest_degree = db.Column(db.Integer)  # HIGHDEG
+    predominant_degree = db.Column(db.Integer)  # PREDDEG
 
-    # Outcomes & Admissions
-    retention_rate_ft = db.Column(db.Float)
-    graduation_rate_150 = db.Column(db.Float)
-    admission_rate = db.Column(db.Float)
-    sat_average = db.Column(db.Float)
-    act_composite_25 = db.Column(db.Float)
+    control = db.Column(db.Integer)  # CONTROL
+    num_branches = db.Column(db.Integer)  # NUMBRANCH
+    is_main_campus = db.Column(db.Boolean)  # MAIN
 
-    # Enrollment & Demographics
-    undergrad_population = db.Column(db.Float)
-    pct_white = db.Column(db.Float)
-    pct_black = db.Column(db.Float)
-    pct_hispanic = db.Column(db.Float)
-    pct_asian = db.Column(db.Float)
+    locale = db.Column(db.Integer)  # LOCALE
+    region = db.Column(db.Integer)  # REGION
+    carnegie_basic_class = db.Column(db.Integer)  # CCBASIC
+    carnegie_size_class = db.Column(db.Integer)  # CCSIZSET
 
-    # Financial Aid & Faculty
-    pct_pell_eligible = db.Column(db.Float)
+    is_hbcu = db.Column(db.Boolean)  # HBCU
+    is_annhi = db.Column(db.Boolean)  # ANNHI
+    is_hsi = db.Column(db.Boolean)  # HSI
+    is_men_only = db.Column(db.Boolean)  # MENONLY
+    is_women_only = db.Column(db.Boolean)  # WOMENONLY
+    is_tribal = db.Column(db.Boolean)  # HBCU.1 (possibly tribal colleges — confirm context)
+
+    cost_of_attendance = db.Column(db.Float)  # COSTT4_A
+    tuition_in_state = db.Column(db.Float)  # TUITIONFEE_IN
+    tuition_out_of_state = db.Column(db.Float)  # TUITIONFEE_OUT
+
+    median_grad_debt = db.Column(db.Float)  # GRAD_DEBT_MDN_SUPP
+    median_debt = db.Column(db.Float)  # DEBT_MDN
+
+    earnings_income1 = db.Column(db.Float)  # MD_EARN_WNE_INC1_P11
+    earnings_income2 = db.Column(db.Float)  # MD_EARN_WNE_INC2_P11
+    earnings_income3 = db.Column(db.Float)  # MD_EARN_WNE_INC3_P11
+
+    retention_rate_ft = db.Column(db.Float)  # RET_FT4
+    retention_rate_part_time = db.Column(db.Float)  # RET_PT4
+    retention_rate = db.Column(db.Float)  # RET_FTL4
+
+    graduation_rate_150 = db.Column(db.Float)  # C150_4
+    graduation_rate_less_than_4 = db.Column(db.Float)  # C150_L4
+    graduation_rate_200 = db.Column(db.Float)  # C200_4
+
+    admission_rate = db.Column(db.Float)  # ADM_RATE
+    sat_avg = db.Column(db.Float)  # SAT_AVG
+    sat_verbal_25 = db.Column(db.Float)  # SATVR25
+    sat_math_25 = db.Column(db.Float)  # SATMT25
+    act_math_25 = db.Column(db.Float)  # ACTMT25
+    act_composite_25 = db.Column(db.Float)  # ACTCM25
+
+    undergrad_population = db.Column(db.Integer)  # UGDS
+    pct_white = db.Column(db.Float)  # UGDS_WHITE
+    pct_black = db.Column(db.Float)  # UGDS_BLACK
+    pct_hispanic = db.Column(db.Float)  # UGDS_HISP
+    pct_asian = db.Column(db.Float)  # UGDS_ASIAN
+    pct_aian = db.Column(db.Float)  # UGDS_AIAN
+    pct_nhpi = db.Column(db.Float)  # UGDS_NHPI
+    pct_two_or_more = db.Column(db.Float)  # UGDS_2MOR
+    pct_unknown = db.Column(db.Float)  # UGDS_UNKN
+    pct_nonresident_alien = db.Column(db.Float)  # UGDS_NRA
+
+    pct_pell = db.Column(db.Float)  # PELL_EVER
     avg_faculty_salary = db.Column(db.Float)
 
-    programs = db.relationship('Program', backref='college', lazy=True)
-    reviews = db.relationship('Review', backref='college', lazy=True)
+    #wiki api
+    description = db.Column(db.Text) # college description
+    photo_url = db.Column(db.Text) # image URL
 
-    def __repr__(self):
-        return f"<College {self.name} ({self.state})>"
 
 class Program(db.Model):
     id = db.Column(db.Integer, primary_key=True)

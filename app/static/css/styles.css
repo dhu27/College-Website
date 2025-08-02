@@ -1,0 +1,60 @@
+/* ---------- Base Layout ---------- */
+
+body {
+  font-family: 'Open Sans', sans-serif; /* Clean, modern font */
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9; /* Light background */
+  color: #1f2d3d; /* Charcoal text */
+}
+
+/* ---------- Navigation Bar ---------- */
+
+nav {
+  background-color: white;
+  padding: 20px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Soft shadow under nav */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav img.logo {
+  height: 75px; /* Logo size */
+  margin-right: 10px; /* Space between logo and links */
+}
+
+nav a {
+  color: #1f2d3d;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+nav a:hover {
+  color: #00bcd4; /* Teal hover color from logo accent */
+}
+
+/* ---------- Main Content Wrapper ---------- */
+
+.content-wrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle card shadow */
+}
+
+/* Optional: spacing between text and links */
+.nav-right a {
+  margin-left: 10px;
+}
+
+nav .welcome-msg {
+  margin-right: 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+

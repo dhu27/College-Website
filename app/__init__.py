@@ -13,6 +13,7 @@ def create_app():
     db.init_app(app)
     migrate = Migrate(app, db) # initialize flask-migrate
     login_manager.init_app(app)  # ✅ after app is created
+    login_manager.login_view = 'auth.login' # Set the login view for Flask-Login
 
     @login_manager.user_loader
     def load_user(user_id):

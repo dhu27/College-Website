@@ -4,6 +4,13 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  <h1>Welcome to College Finder</h1>
-  <p>This is your starting point.</p>
+  <div style="text-align: center; padding: 60px 20px;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to NextSteps</h1>
+    <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto 2rem auto; color: #555;">
+      Discover and compare colleges that match your interests, goals, and academic profile. Build your list and plan your future all in one place.
+    </p>
+    <a href="{{ url_for('colleges.college_list') }}" style="display: inline-block; margin-top: 0px; padding: 10px 20px; background-color: #00bcd4; color: white; border-radius: 5px; text-decoration: none; font-weight: bold;">
+      Explore Colleges Now
+    </a>
+  </div>
 {% endblock %}
