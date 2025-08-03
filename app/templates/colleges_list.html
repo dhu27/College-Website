@@ -3,49 +3,41 @@
 
 {% block content %}
 
-<div style="display: flex; gap: 2rem; align-items: flex-start;">
+<div class="colleges-list-container">
 
   <!-- Sidebar Filters -->
-  <form method="get" action="{{ url_for('colleges.college_list') }}" style="width: 250px;">
+  <form method="get" action="{{ url_for('colleges.college_list') }}" class="colleges-filters">
     <h3>Filter</h3>
 
-    <strong>Search by College Name</strong><br>
-    <input type="text" name="search" value="{{ request.args.get('search', '') }}" placeholder="e.g. Stanford, Tech"><br><br>
+    <strong>Search by College Name</strong>
+    <input type="text" name="search" value="{{ request.args.get('search', '') }}" placeholder="e.g. Stanford, Tech">
 
-    <!-- Control Type -->
-    <strong>Control Type</strong><br>
-    <label><input type="checkbox" name="control" value="public" {% if 'public' in request.args.getlist('control') %}checked{% endif %}> Public</label><br>
-    <label><input type="checkbox" name="control" value="private" {% if 'private' in request.args.getlist('control') %}checked{% endif %}> Private</label><br><br>
+    <strong>Control Type</strong>
+    <label><input type="checkbox" name="control" value="public" {% if 'public' in request.args.getlist('control') %}checked{% endif %}> Public</label>
+    <label><input type="checkbox" name="control" value="private" {% if 'private' in request.args.getlist('control') %}checked{% endif %}> Private</label>
 
-    <!-- Max Cost Slider -->
-    <strong>Max Cost of Attendance ($)</strong><br>
+    <strong>Max Cost of Attendance ($)</strong>
     <input type="range" name="max_cost" min="0" max="120000" step="500"
           value="{{ request.args.get('max_cost', 120000) }}"
           oninput="document.getElementById('costLabel').innerText = this.value">
-    <span id="costLabel">{{ request.args.get('max_cost', 120000) }}</span><br><br>
+    <span id="costLabel">{{ request.args.get('max_cost', 120000) }}</span>
 
-    <!-- Student Body Size -->
-    <strong>Student Body Size</strong><br>
-    <label><input type="checkbox" name="size" value="small" {% if 'small' in request.args.getlist('size') %}checked{% endif %}> Small (&lt;5K)</label><br>
-    <label><input type="checkbox" name="size" value="medium" {% if 'medium' in request.args.getlist('size') %}checked{% endif %}> Medium (5K–15K)</label><br>
-    <label><input type="checkbox" name="size" value="large" {% if 'large' in request.args.getlist('size') %}checked{% endif %}> Large (&gt;15K)</label><br><br>
+    <strong>Student Body Size</strong>
+    <label><input type="checkbox" name="size" value="small" {% if 'small' in request.args.getlist('size') %}checked{% endif %}> Small (&lt;5K)</label>
+    <label><input type="checkbox" name="size" value="medium" {% if 'medium' in request.args.getlist('size') %}checked{% endif %}> Medium (5K–15K)</label>
+    <label><input type="checkbox" name="size" value="large" {% if 'large' in request.args.getlist('size') %}checked{% endif %}> Large (&gt;15K)</label>
 
-    <!-- Specialties -->
-    <strong>Specialties</strong><br>
+    <strong>Specialties</strong>
     {% for spec in ['All-Women', 'All-Men', 'AANAPISI', 'HBCU', 'NATIVE AMERICAN'] %}
-      <label><input type="checkbox" name="specialties" value="{{ spec }}" {% if spec in request.args.getlist('specialties') %}checked{% endif %}> {{ spec }}</label><br>
+      <label><input type="checkbox" name="specialties" value="{{ spec }}" {% if spec in request.args.getlist('specialties') %}checked{% endif %}> {{ spec }}</label>
     {% endfor %}
-    <br>
 
-    <!-- Selectivity -->
-    <strong>Selectivity</strong><br>
+    <strong>Selectivity</strong>
     {% for level in ['Extremely Selective', 'Very Selective', 'Selective', 'Average', 'Safety'] %}
-      <label><input type="checkbox" name="selectivity" value="{{ level }}" {% if level in request.args.getlist('selectivity') %}checked{% endif %}> {{ level }}</label><br>
+      <label><input type="checkbox" name="selectivity" value="{{ level }}" {% if level in request.args.getlist('selectivity') %}checked{% endif %}> {{ level }}</label>
     {% endfor %}
-    <br>
 
-    <!-- State Dropdown -->
-    <label for="state"><strong>State</strong></label><br>
+    <label for="state"><strong>State</strong></label>
     <select name="state" id="state">
       <option value="">All</option>
       {% for abbr in [
@@ -55,33 +47,54 @@
       ] %}
         <option value="{{ abbr }}" {% if request.args.get('state') == abbr %}selected{% endif %}>{{ abbr }}</option>
       {% endfor %}
-    </select><br><br>
+    </select>
 
-    <!-- Submit/Reset Buttons -->
     <input type="submit" value="Apply Filters">
-    <a href="{{ url_for('colleges.college_list') }}" style="display: inline-block; margin-top: 0.5rem;">Reset</a>
+    <a href="{{ url_for('colleges.college_list') }}">Reset</a>
   </form>
 
-
   <!-- College Cards -->
-  <div style="flex: 1;">
+  <div class="colleges-content">
     <h2>Colleges</h2>
 
-    {% for college in colleges %}
-      <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 6px;">
-        <h3>
-          <a href="{{ url_for('colleges.college_detail', college_id=college.id) }}">
-            {{ college.name }}
-          </a>
-        </h3>
-        <p><strong>Location:</strong> {{ college.city }}, {{ college.state }}</p>
-        <p><strong>Net Price:</strong> ${{ college.cost_of_attendance or 'N/A' }}</p>
-        <p><strong>SAT Avg:</strong> {{ college.sat_average or '—' }}</p>
-        <p><strong>Admission Rate:</strong> {{ (college.admission_rate * 100)|round(1) if college.admission_rate else 'N/A' }}%</p>
+    {% for college in colleges.items %}
+      <div class="college-card">
+        <h3><a href="{{ url_for('colleges.college_detail', college_id=college.id) }}">{{ college.name }}</a></h3>
+
+        {% if college.description %}
+          <p class="college-description">
+            {{ college.description[:365] }}{% if college.description|length > 365 %}...{% endif %}
+          </p>
+        {% else %}
+          <p class="college-description">No description available.</p>
+        {% endif %}
+
+        <div class="college-meta">
+          <span>{{ college.city }}, {{ college.state }}</span>
+          <span>Admission Rate: {{ (college.admission_rate * 100)|round(1) if college.admission_rate else 'N/A' }}%</span>
+          <span>Annual Cost: ${{ "{:,}".format(college.cost_of_attendance) if college.cost_of_attendance else "N/A" }}</span>
+        </div>
       </div>
     {% else %}
       <p>No colleges match your filters.</p>
     {% endfor %}
+
+    {% set args = request.args.to_dict() %}
+    {% set query_args = {} %}
+    {% for key, value in args.items() if key != 'page' %}
+      {% set _ = query_args.__setitem__(key, value) %}
+    {% endfor %}
+
+    <div class="colleges-pagination">
+      {% if colleges.has_prev %}
+        <a href="{{ url_for('colleges.college_list', page=colleges.prev_num, **query_args) }}">Previous</a>
+      {% endif %}
+      <span>Page {{ colleges.page }} of {{ colleges.pages }}</span>
+      {% if colleges.has_next %}
+        <a href="{{ url_for('colleges.college_list', page=colleges.next_num, **query_args) }}">Next</a>
+      {% endif %}
+    </div>
+
   </div>
 </div>
 

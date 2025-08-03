@@ -1,17 +1,114 @@
 {% extends "base.html" %}
-
-{% block title %}College Details{% endblock %}
+{% block title %}{{ college.name }}{% endblock %}
 
 {% block content %}
-<!-- colleges/detail.html -->
+<script>
+function handleImageError(img) {
+    // First try Clearbit logo if available
+    const clearbitUrl = img.getAttribute('data-clearbit-url');
+    if (clearbitUrl && clearbitUrl.trim() !== '') {
+        img.onerror = function() {
+            // If Clearbit also fails, use default logo
+            img.src = img.getAttribute('data-default-url');
+        };
+        img.src = clearbitUrl;
+    } else {
+        // If no Clearbit URL, go straight to default
+        img.src = img.getAttribute('data-default-url');
+    }
+}
+</script>
+<div class="college-detail">
 
-<h1>{{ college.name }}</h1>
-<p><strong>Location:</strong> {{ college.city }}, {{ college.state }}</p>
-<p><strong>Website:</strong> <a href="https://{{ college.website_url }}" target="_blank">{{ college.website_url }}</a></p>
-<p><strong>Accrediting Agency:</strong> {{ college.accrediting_agency }}</p>
-<p><strong>Undergrad Population:</strong> {{ college.undergrad_population or 'N/A' }}</p>
-<p><strong>Tuition (In-State):</strong> ${{ college.tuition_in_state or 'N/A' }}</p>
-<p><strong>Tuition (Out-of-State):</strong> ${{ college.tuition_out_of_state or 'N/A' }}</p>
-<p><strong>Admission Rate:</strong> {{ (college.admission_rate * 100)|round(1) if college.admission_rate else 'N/A' }}%</p>
+  {% if college.photo_url and college.photo_url.strip() %}
+    {% set image_url = college.photo_url %}
+    {% set clearbit_url = 'https://logo.clearbit.com/' ~ college.website if college.website else '' %}
+  {% elif college.website %}
+    {% set image_url = 'https://logo.clearbit.com/' ~ college.website %}
+    {% set clearbit_url = '' %}
+  {% else %}
+    {% set image_url = url_for('static', filename='images/logo.png') %}
+    {% set clearbit_url = '' %}
+  {% endif %}
 
+  <!-- Hero Section - Image and Text Only -->
+  <div class="hero-section">
+    <div class="hero-image">
+      <img src="{{ image_url }}"
+           alt="Image of {{ college.name }}"
+           class="college-image"
+           data-clearbit-url="{{ clearbit_url }}"
+           data-default-url="{{ url_for('static', filename='images/logo.png') }}"
+           onerror="handleImageError(this);">
+    </div>
+    <div class="college-header">
+      <h1>{{ college.name }}</h1>
+      <p class="description">{{ college.description or 'No description available for this college.' }}</p>
+    </div>
+  </div>
+
+  <!-- Information Sections Container -->
+  <div class="info-sections">
+    <!-- Left Column: Quick Facts, Financials, Cost, Contact -->
+    <div class="left-column">
+      <h3>Quick Facts</h3>
+      <ul>
+        <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
+        <li><strong>Type:</strong> {{ 'Public' if college.control == 1 else 'Private' }}</li>
+        {% if college.undergrad_population %}<li><strong>Undergrads:</strong> {{ "{:,}".format(college.undergrad_population) }}</li>{% endif %}
+        {% if college.admission_rate %}<li><strong>Admission Rate:</strong> {{ (college.admission_rate * 100) | round(1) }}%</li>{% endif %}
+      </ul>
+
+      <h3>Annual Cost</h3>
+      <ul>
+        {% if college.tuition_in_state %}<li><strong>In-State Tuition:</strong> ${{ "{:,}".format(college.tuition_in_state) }}</li>{% endif %}
+        {% if college.tuition_out_of_state %}<li><strong>Out-of-State Tuition:</strong> ${{ "{:,}".format(college.tuition_out_of_state) }}</li>{% endif %}
+        {% if college.cost_of_attendance %}<li><strong>Average Net Price:</strong> ${{ "{:,}".format(college.cost_of_attendance) }}</li>{% endif %}
+      </ul>
+
+      <h3>Contact</h3>
+      <ul>
+        {% if college.website %}<li><a href="https://{{ college.website }}" target="_blank">Visit Website</a></li>{% endif %}
+        <li>{{ college.city }}, {{ college.state }} {{ college.zip }}</li>
+      </ul>
+    </div>
+
+    <!-- Right Column: Academics, Campus Life -->
+    <div class="right-column">
+      <h3>Academics</h3>
+      {% set degree_labels = {
+        0: "Non-degree granting",
+        1: "Certificate",
+        2: "Associate's Degree",
+        3: "Bachelor's Degree",
+        4: "Graduate Degree"
+      } %}
+      <ul>
+        {% if college.graduation_rate_150 %}
+          <li><strong>Graduation Rate:</strong> {{ (college.graduation_rate_150 * 100) | round(1) }}% (within 6 years)</li>
+        {% endif %}
+        {% if college.retention_rate_ft %}
+          <li><strong>Freshman Retention:</strong> {{ (college.retention_rate_ft * 100) | round(1) }}%</li>
+        {% endif %}
+        {% if college.sat_avg %}
+          <li><strong>SAT Average:</strong> {{ college.sat_avg }}</li>
+        {% endif %}
+        {% if college.act_composite_25 %}
+          <li><strong>ACT Composite (25th %):</strong> {{ college.act_composite_25 }}</li>
+        {% endif %}
+        {% if college.highest_degree is not none %}
+          <li><strong>Highest Degree:</strong> {{ degree_labels.get(college.highest_degree, "Unknown") }}</li>
+        {% endif %}
+      </ul>
+
+      <h3>Campus Life</h3>
+      <ul>
+        {% if college.is_hbcu %}<li>Historically Black College/University</li>{% endif %}
+        {% if college.is_annhi %}<li>AANAPISI-designated</li>{% endif %}
+        {% if college.is_hsi %}<li>Hispanic-Serving Institution</li>{% endif %}
+        {% if college.is_women_only %}<li>Women Only</li>{% elif college.is_men_only %}<li>Men Only</li>{% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}

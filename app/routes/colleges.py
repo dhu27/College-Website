@@ -80,15 +80,21 @@ def college_list():
         query = query.filter(or_(*selectivity_filters))
         filters_applied.append(f"Selectivity: {selectivity_levels}")
 
+    # Query Definition
+    query = query.filter(College.undergrad_population.isnot(None))
+    query = query.order_by(College.undergrad_population.desc().nullslast())
+    
     # Final Query
-    colleges = query.order_by(College.name).all()
+    page = request.args.get('page', 1, type=int)
+    per_page = 7
+    colleges = query.paginate(page=page, per_page=per_page)
 
     # Debug Output (for development only)
     if filters_applied:
         print("Filters applied:")
         for f in filters_applied:
             print(f"- {f}")
-        print(f"Total colleges returned: {len(colleges)}")
+        print(f"Total colleges returned: {len(colleges.items)}")
 
     return render_template('colleges_list.html', colleges=colleges)
 

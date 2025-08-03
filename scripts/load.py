@@ -100,7 +100,7 @@ for _, row in df.iterrows():
         pct_nonresident_alien=parse_float(row["UGDS_NRA"]),
         pct_pell=parse_float(row["PELL_EVER"]),
         avg_faculty_salary=parse_float(row["AVGFACSAL"]),
-        description=row["wiki_description"],
+        description=row["revised_description"],
         photo_url=row["wiki_image"]
     )
 
