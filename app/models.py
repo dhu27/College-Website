@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone as dt_timezone
 from .db import db
 from flask_login import UserMixin
 
@@ -111,10 +111,25 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)  # 1 to 5 stars
     text = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(dt_timezone.utc))
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     college_id = db.Column(db.Integer, db.ForeignKey('college.id'), nullable=False)
 
     def __repr__(self):
         return f"<Review {self.rating}★ for College ID {self.college_id}>"
+    
+class CollegeList(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(dt_timezone.utc))
+    colleges = db.relationship('CollegeListEntry', backref='list', lazy=True)
+
+class CollegeListEntry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    list_id = db.Column(db.Integer, db.ForeignKey('college_list.id'))
+    college_id = db.Column(db.Integer, db.ForeignKey('college.id'))
+    added_at = db.Column(db.DateTime, default=lambda: datetime.now(dt_timezone.utc))
+    notes = db.Column(db.Text)

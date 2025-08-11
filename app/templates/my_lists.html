@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}My Lists{% endblock %}
+{% block content %}
+
+<h2>My Lists</h2>
+<form method="post" action="{{ url_for('lists.create_list') }}">
+  <input name="name" placeholder="List name" required>
+  <button type="submit">Create</button>
+</form>
+
+<ul>
+  {% for l in lists %}
+    <li>{{ l.name }} ({{ l.colleges|length }} colleges)</li>
+  {% else %}
+    <li>No lists yet</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -51,19 +51,52 @@ function handleImageError(img) {
   <div class="info-sections">
     <!-- Left Column: Quick Facts, Financials, Cost, Contact -->
     <div class="left-column">
-      <h3>Quick Facts</h3>
+      <h3>General Information</h3>
       <ul>
         <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
         <li><strong>Type:</strong> {{ 'Public' if college.control == 1 else 'Private' }}</li>
         {% if college.undergrad_population %}<li><strong>Undergrads:</strong> {{ "{:,}".format(college.undergrad_population) }}</li>{% endif %}
-        {% if college.admission_rate %}<li><strong>Admission Rate:</strong> {{ (college.admission_rate * 100) | round(1) }}%</li>{% endif %}
-      </ul>
+        <!-- Geographic Setting -->
+        {% if college.locale %}
+          {% set locale_labels = {
+            11: "Large City",
+            12: "Mid-size City", 
+            13: "Small City",
+            21: "Large Suburb",
+            22: "Mid-size Suburb",
+            23: "Small Suburb",
+            31: "Fringe Town",
+            32: "Distant Town",
+            33: "Remote Town",
+            41: "Fringe Rural",
+            42: "Distant Rural",
+            43: "Remote Rural"
+          } %}
+          <li><strong>Setting:</strong> {{ locale_labels.get(college.locale, "Urban") }}</li>
+        {% endif %}
+        
+        {% if college.is_hbcu %}<li>Historically Black College/University</li>{% endif %}
+        {% if college.is_annhi %}<li>AANAPISI-designated</li>{% endif %}
+        {% if college.is_hsi %}<li>Hispanic-Serving Institution</li>{% endif %}
+        {% if college.is_women_only %}<li>Women Only</li>{% elif college.is_men_only %}<li>Men Only</li>{% endif %}
+        </ul>
 
-      <h3>Annual Cost</h3>
+      <h3>Student Diversity</h3>
       <ul>
-        {% if college.tuition_in_state %}<li><strong>In-State Tuition:</strong> ${{ "{:,}".format(college.tuition_in_state) }}</li>{% endif %}
-        {% if college.tuition_out_of_state %}<li><strong>Out-of-State Tuition:</strong> ${{ "{:,}".format(college.tuition_out_of_state) }}</li>{% endif %}
-        {% if college.cost_of_attendance %}<li><strong>Average Net Price:</strong> ${{ "{:,}".format(college.cost_of_attendance) }}</li>{% endif %}
+        <!-- Student Body Diversity -->
+        {% if college.pct_white or college.pct_black or college.pct_hispanic or college.pct_asian %}
+          <li><strong>Student Body:</strong>
+            {% if college.pct_white %}{{ (college.pct_white * 100) | round(1) }}% White,{% endif %}
+            {% if college.pct_black %}{{ (college.pct_black * 100) | round(1) }}% Black,{% endif %}
+            {% if college.pct_hispanic %}{{ (college.pct_hispanic * 100) | round(1) }}% Hispanic,{% endif %}
+            {% if college.pct_asian %}{{ (college.pct_asian * 100) | round(1) }}% Asian{% endif %}
+          </li>
+        {% endif %}
+        
+        <!-- International Students -->
+        {% if college.pct_nonresident_alien %}
+          <li><strong>International Students:</strong> {{ (college.pct_nonresident_alien * 100) | round(1) }}%</li>
+        {% endif %}
       </ul>
 
       <h3>Contact</h3>
@@ -90,23 +123,30 @@ function handleImageError(img) {
         {% if college.retention_rate_ft %}
           <li><strong>Freshman Retention:</strong> {{ (college.retention_rate_ft * 100) | round(1) }}%</li>
         {% endif %}
+        {% if college.highest_degree is not none %}
+          <li><strong>Highest Degree Offered:</strong> {{ degree_labels.get(college.highest_degree, "Unknown") }}</li>
+        {% endif %}
+        {% if college.carnegie_size_class is not none %}
+          <li><strong>Average Class Size:</strong> {{ college.carnegie_size_class }}</li>
+        {% endif %}
+      </ul>
+
+      <h3>Annual Cost</h3>
+      <ul>
+        {% if college.tuition_in_state %}<li><strong>In-State Tuition:</strong> ${{ "{:,}".format(college.tuition_in_state) }}</li>{% endif %}
+        {% if college.tuition_out_of_state %}<li><strong>Out-of-State Tuition:</strong> ${{ "{:,}".format(college.tuition_out_of_state) }}</li>{% endif %}
+        {% if college.cost_of_attendance %}<li><strong>Average Net Price:</strong> ${{ "{:,}".format(college.cost_of_attendance) }}</li>{% endif %}
+      </ul>
+
+      <h3>Admissions Information</h3>
+      <ul>
+        {% if college.admission_rate %}<li><strong>Admission Rate:</strong> {{ (college.admission_rate * 100) | round(1) }}%</li>{% endif %}
         {% if college.sat_avg %}
           <li><strong>SAT Average:</strong> {{ college.sat_avg }}</li>
         {% endif %}
         {% if college.act_composite_25 %}
-          <li><strong>ACT Composite (25th %):</strong> {{ college.act_composite_25 }}</li>
+          <li><strong>ACT Composite (25th Percentile):</strong> {{ college.act_composite_25 }}</li>
         {% endif %}
-        {% if college.highest_degree is not none %}
-          <li><strong>Highest Degree:</strong> {{ degree_labels.get(college.highest_degree, "Unknown") }}</li>
-        {% endif %}
-      </ul>
-
-      <h3>Campus Life</h3>
-      <ul>
-        {% if college.is_hbcu %}<li>Historically Black College/University</li>{% endif %}
-        {% if college.is_annhi %}<li>AANAPISI-designated</li>{% endif %}
-        {% if college.is_hsi %}<li>Hispanic-Serving Institution</li>{% endif %}
-        {% if college.is_women_only %}<li>Women Only</li>{% elif college.is_men_only %}<li>Men Only</li>{% endif %}
       </ul>
     </div>
   </div>

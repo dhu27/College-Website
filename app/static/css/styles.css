@@ -139,8 +139,7 @@ nav {
 }
 
 nav img.logo {
-  height: 110px;
-  margin-right: var(--space-md);
+  height: 90px;
 }
 
 nav a {
@@ -160,6 +159,22 @@ nav a:hover {
   transform: translateY(-1px);
 }
 
+/* Ensure logo link centers image within hover background */
+nav a.logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs);
+  margin-right: var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+/* Keep same hover style as other links */
+nav a.logo-link:hover {
+  background: var(--primary-50);
+  transform: translateY(-1px);
+}
+
 nav .welcome-msg {
   margin-right: var(--space-sm);
   font-weight: 700;
@@ -170,7 +185,7 @@ nav .welcome-msg {
 /* ===== MAIN CONTENT WRAPPER ===== */
 
 .content-wrapper {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: var(--space-xl) auto;
   padding: var(--space-lg);
   background: rgba(255, 255, 255, 0.8);
@@ -300,7 +315,7 @@ nav .welcome-msg {
 
 .college-detail {
   padding: var(--space-xl) var(--space-lg);
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -308,7 +323,7 @@ nav .welcome-msg {
 .hero-section {
   display: flex;
   gap: var(--space-2xl);
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   margin-bottom: var(--space-2xl);
   background: white;
@@ -316,6 +331,7 @@ nav .welcome-msg {
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   width: 100%;
+  max-width: 100%;
 }
 
 .hero-image {
@@ -330,7 +346,7 @@ nav .welcome-msg {
   object-fit: cover;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  max-height: 300px;
+  max-height: 330px;
   min-height: 200px;
 }
 
@@ -453,7 +469,7 @@ nav .welcome-msg {
 }
 
 .colleges-filters {
-  width: 280px;
+  width: 300px;
   background: white;
   padding: var(--space-lg);
   border-radius: var(--radius-lg);

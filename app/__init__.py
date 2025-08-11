@@ -23,9 +23,13 @@ def create_app():
     from app.routes.main import main_bp
     from app.routes.colleges import colleges_bp
     from app.routes.auth import auth_bp
+    from app.routes.recommendations import recommendations_bp
+    from app.routes.lists import lists_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(colleges_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(recommendations_bp)
+    app.register_blueprint(lists_bp)
 
     return app
