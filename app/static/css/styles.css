@@ -666,3 +666,198 @@ nav .welcome-msg {
     font-size: 1.8rem;
   }
 }
+
+/* ===== RECOMMENDATIONS PAGE (MATCHES MODERN DESIGN) ===== */
+.recommendations-container {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-xl);
+  align-items: flex-start;
+  margin-top: var(--space-xl);
+}
+
+.recommendations-form {
+  flex: 0 0 340px;
+  background: white;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-200);
+}
+
+.recommendations-form h2 {
+  font-size: 1.6rem;
+  margin-bottom: var(--space-md);
+  color: var(--primary-700);
+}
+
+.recommendations-form label {
+  font-size: 1rem;
+  color: var(--neutral-700);
+  display: block;
+  margin-bottom: 0.1rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+.recommendations-form input[type="number"],
+.recommendations-form input[type="range"],
+.recommendations-form input[type="text"],
+.recommendations-form select {
+  width: 100%;
+  padding: var(--space-xs);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  background: var(--neutral-50);
+  box-sizing: border-box;
+}
+
+.recommendations-form input[type="range"] {
+  margin-bottom: 0.25rem;
+}
+
+.recommendations-form output {
+  display: inline-block;
+  min-width: 2.5em;
+  text-align: right;
+  color: var(--primary-600);
+  font-weight: 600;
+  margin-left: var(--space-xs);
+}
+
+.recommendations-form button[type="submit"] {
+  background: var(--gradient-primary);
+  color: white;
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: var(--space-md);
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
+}
+
+.recommendations-form button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.states-checkbox-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  background: var(--neutral-50);
+  padding: 0.3rem 0.7rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.states-checkbox-list label {
+  display: block;
+  margin-bottom: 0.1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--neutral-700);
+}
+.help-icon {
+  display: inline-block;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: var(--primary-500);
+  font-size: 1.2rem;
+  vertical-align: middle;
+  position: relative;
+}
+
+.help-tooltip {
+  display: none;
+  position: absolute;
+  left: 1.5rem;
+  top: 0;
+  z-index: 10;
+  background: var(--neutral-900);
+  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.98rem;
+  min-width: 220px;
+  box-shadow: var(--shadow-lg);
+  white-space: normal;
+}
+
+.help-icon:hover .help-tooltip,
+.help-icon:focus .help-tooltip {
+  display: block;
+}
+
+.recommendations-results {
+  flex: 1 1 0%;
+  background: white;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-200);
+}
+
+.recommendations-results h2 {
+  font-size: 1.6rem;
+  margin-bottom: var(--space-md);
+  color: var(--primary-700);
+}
+
+.recommendations-results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recommendations-results li {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-sm);
+  box-shadow: var(--shadow-sm);
+  font-size: 1.1rem;
+  color: var(--neutral-800);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recommendations-results form {
+  display: inline;
+}
+
+.recommendations-results button[type="submit"] {
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-md);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: var(--space-sm);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.recommendations-results button[type="submit"]:hover {
+  background: var(--secondary-600);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 900px) {
+  .recommendations-container {
+    flex-direction: column;
+  }
+  .recommendations-form, .recommendations-results {
+    width: 100%;
+    margin-bottom: var(--space-lg);
+  }
+}

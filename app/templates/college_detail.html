@@ -52,10 +52,37 @@ function handleImageError(img) {
     <!-- Left Column: Quick Facts, Financials, Cost, Contact -->
     <div class="left-column">
       <h3>General Information</h3>
+
       <ul>
         <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
         <li><strong>Type:</strong> {{ 'Public' if college.control == 1 else 'Private' }}</li>
         {% if college.undergrad_population %}<li><strong>Undergrads:</strong> {{ "{:,}".format(college.undergrad_population) }}</li>{% endif %}
+
+        <!-- Carnegie Size & Setting -->
+        {% set ccsizset_labels = {
+          1: "Very small, primarily nonresidential",
+          2: "Very small, primarily residential",
+          3: "Very small, highly residential",
+          4: "Small, primarily nonresidential",
+          5: "Small, primarily residential",
+          6: "Small, highly residential",
+          7: "Medium, primarily nonresidential",
+          8: "Medium, primarily residential",
+          9: "Medium, highly residential",
+          10: "Large, primarily nonresidential",
+          11: "Large, primarily residential",
+          12: "Large, highly residential",
+          13: "Very large, primarily nonresidential",
+          14: "Very large, primarily residential",
+          15: "Very large, highly residential",
+          17: "Extremely large, primarily nonresidential",
+          18: "Extremely large, primarily residential",
+          19: "Extremely large, highly residential"
+        } %}
+        {% if college.carnegie_size_class is not none %}
+          <li><strong>Campus Size/Setting:</strong> {{ ccsizset_labels.get(college.carnegie_size_class, 'Unknown') }}</li>
+        {% endif %}
+
         <!-- Geographic Setting -->
         {% if college.locale %}
           {% set locale_labels = {
@@ -74,12 +101,12 @@ function handleImageError(img) {
           } %}
           <li><strong>Setting:</strong> {{ locale_labels.get(college.locale, "Urban") }}</li>
         {% endif %}
-        
+
         {% if college.is_hbcu %}<li>Historically Black College/University</li>{% endif %}
         {% if college.is_annhi %}<li>AANAPISI-designated</li>{% endif %}
         {% if college.is_hsi %}<li>Hispanic-Serving Institution</li>{% endif %}
         {% if college.is_women_only %}<li>Women Only</li>{% elif college.is_men_only %}<li>Men Only</li>{% endif %}
-        </ul>
+      </ul>
 
       <h3>Student Diversity</h3>
       <ul>
@@ -126,8 +153,31 @@ function handleImageError(img) {
         {% if college.highest_degree is not none %}
           <li><strong>Highest Degree Offered:</strong> {{ degree_labels.get(college.highest_degree, "Unknown") }}</li>
         {% endif %}
-        {% if college.carnegie_size_class is not none %}
-          <li><strong>Average Class Size:</strong> {{ college.carnegie_size_class }}</li>
+
+        <!-- Carnegie Basic Classification -->
+        {% set ccbasic_labels = {
+          15: "Doctoral University – Very High Research Activity",
+          16: "Doctoral University – High Research Activity",
+          17: "Doctoral/Professional Universities",
+          18: "Master’s College & Universities: Larger Programs",
+          19: "Master’s College & Universities: Medium Programs",
+          20: "Master’s College & Universities: Smaller Programs",
+          21: "Baccalaureate College: Arts & Sciences Focus",
+          22: "Baccalaureate College: Diverse Fields",
+          23: "Associate’s College",
+          24: "Special Focus: Two-Year Institution",
+          25: "Special Focus: Medical School & Centers",
+          26: "Special Focus: Other Health Professions School",
+          27: "Special Focus: Engineering School",
+          28: "Special Focus: Other Technology-Related School",
+          29: "Special Focus: Business & Management School",
+          30: "Special Focus: Arts, Music & Design School",
+          31: "Special Focus: Law School",
+          32: "Special Focus: Other Special Focus Institution",
+          33: "Tribal College"
+        } %}
+        {% if college.carnegie_basic_class is not none %}
+          <li><strong>Institution Type:</strong> {{ ccbasic_labels.get(college.carnegie_basic_class, 'Other/Unknown') }}</li>
         {% endif %}
       </ul>
 
