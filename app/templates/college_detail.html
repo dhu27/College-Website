@@ -44,6 +44,33 @@ function handleImageError(img) {
     <div class="college-header">
       <h1>{{ college.name }}</h1>
       <p class="description">{{ college.description or 'No description available for this college.' }}</p>
+      <!-- Add to List button and dropdown for college detail -->
+      <div style="margin: 1.5em 0;">
+        <div class="add-to-list-btn-wrapper" style="position: relative; display: inline-block;">
+          <button class="add-to-list-btn" data-college-id="{{ college.id }}">Add to List</button>
+          <div class="list-dropdown" data-college-id="{{ college.id }}">
+            <form class="add-to-list-form">
+              <div class="user-lists-menu">
+                <div class="dropdown-section-title">Your Lists</div>
+                <ul class="user-lists">
+                  {% for user_list in user_lists %}
+                    <li>
+                      <button type="button" class="add-to-list-option" data-list-id="{{ user_list.id }}" data-college-id="{{ college.id }}">
+                        {{ user_list.name }}
+                      </button>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <input type="text" class="new-list-name" placeholder="New list name">
+              <div class="form-buttons">
+                <button type="button" class="create-list-btn">Create New List</button>
+                <button type="submit" class="add-to-list-submit">Add to List</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -201,4 +228,5 @@ function handleImageError(img) {
     </div>
   </div>
 </div>
+<script src="{{ url_for('static', filename='js/add-to-list.js') }}"></script>
 {% endblock %}

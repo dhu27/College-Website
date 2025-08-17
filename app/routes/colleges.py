@@ -6,6 +6,7 @@ from app import db
 colleges_bp = Blueprint('colleges', __name__)
 
 @colleges_bp.route('/colleges')
+# College list route: displays filtered/paginated list of colleges
 def college_list():
     query = College.query
     filters_applied = []
@@ -99,6 +100,7 @@ def college_list():
     return render_template('colleges_list.html', colleges=colleges)
 
 @colleges_bp.route('/college/<int:college_id>', endpoint='college_detail')
+# College detail route: displays details for a specific college
 def college_detail(college_id):
     college = College.query.get_or_404(college_id)
     return render_template('college_detail.html', college=college)

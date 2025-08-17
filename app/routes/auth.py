@@ -8,6 +8,7 @@ from sqlalchemy import or_
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
+# Login route: handles user login via email or username
 def login():
     if request.method == 'POST':
         login_input = request.form['login']  # could be email OR username
@@ -26,6 +27,7 @@ def login():
     return render_template('login.html')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
+# Registration route: handles new user sign-up
 def register():
     if request.method == 'POST':
         email = request.form['email']
@@ -56,6 +58,7 @@ def register():
 
 @auth_bp.route('/logout')
 @login_required
+# Logout route: logs out the current user
 def logout():
     logout_user()
     return redirect(url_for('main.home'))

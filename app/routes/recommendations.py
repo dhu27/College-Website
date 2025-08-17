@@ -8,6 +8,7 @@ recommendations_bp = Blueprint('recommendations', __name__)
 
 @recommendations_bp.route('/recommendations', methods=['GET', 'POST'])
 @login_required
+# Recommendations route: handles form input and displays recommended colleges
 def get_recommendations():
     user_lists = CollegeList.query.filter_by(user_id=current_user.id).all()
     results = []

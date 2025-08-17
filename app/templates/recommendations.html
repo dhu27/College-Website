@@ -2,8 +2,6 @@
 {% block title %}Recommendations{% endblock %}
 {% block content %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/recommendations.css') }}">
-
 <div class="recommendations-container">
   <div class="recommendations-form">
     <h2 style="display: flex; align-items: center; gap: 0.5rem;">
@@ -78,18 +76,35 @@
         {% for r in results %}
           <li>
             <a href="{{ url_for('colleges.college_detail', college_id=r.id) }}" class="college-link">{{ r.INSTNM }}</a> ({{ r.CITY }}, {{ r.STABBR }}) — Score: {{ '%.2f'|format(r.score) }}
-            {% if user_lists and user_lists|length > 0 %}
-              <form method="post" action="{{ url_for('lists.add_to_list', list_id=user_lists[0].id) }}" style="display:inline">
-                <input type="hidden" name="college_id" value="{{ r.UNITID }}">
-                <button type="submit">Add to first list</button>
-              </form>
-            {% else %}
-              <a href="{{ url_for('lists.my_lists') }}">Create a list to save</a>
-            {% endif %}
+            <div class="add-to-list-btn-wrapper">
+              <button class="add-to-list-btn" data-college-id="{{ r.id }}">Add to List</button>
+              <div class="list-dropdown" data-college-id="{{ r.id }}">
+                <form class="add-to-list-form">
+                  <div class="dropdown-section-title">Your Lists</div>
+                  <div class="user-lists-menu">
+                    <ul class="user-lists">
+                      {% for user_list in user_lists %}
+                        <li>
+                          <button type="button" class="add-to-list-option" data-list-id="{{ user_list.id }}" data-college-id="{{ r.id }}">
+                            {{ user_list.name }}
+                          </button>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <input type="text" class="new-list-name" placeholder="New list name">
+                  <div class="form-buttons">
+                    <button type="button" class="create-list-btn">Create New List</button>
+                    <button type="submit" class="add-to-list-submit">Add to List</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </li>
         {% endfor %}
       </ul>
     {% endif %}
   </div>
 </div>
+<script src="{{ url_for('static', filename='js/add-to-list.js') }}"></script>
 {% endblock %}

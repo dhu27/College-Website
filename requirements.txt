@@ -1,3 +1,29 @@
+
+
+# Web framework & extensions
+Flask
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Bcrypt
+
+# Database
+psycopg2-binary
+
+# Data science & utilities
 pandas
 numpy
 scikit-learn
+
+# Templating
+Jinja2
+
+# Environment & config
+python-dotenv
+Werkzeug
+
+# Other useful packages
+itsdangerous
+requests
+gunicorn
