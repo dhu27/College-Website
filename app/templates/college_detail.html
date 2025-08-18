@@ -2,231 +2,234 @@
 {% block title %}{{ college.name }}{% endblock %}
 
 {% block content %}
-<script>
-function handleImageError(img) {
-    // First try Clearbit logo if available
-    const clearbitUrl = img.getAttribute('data-clearbit-url');
-    if (clearbitUrl && clearbitUrl.trim() !== '') {
-        img.onerror = function() {
-            // If Clearbit also fails, use default logo
-            img.src = img.getAttribute('data-default-url');
-        };
-        img.src = clearbitUrl;
-    } else {
-        // If no Clearbit URL, go straight to default
-        img.src = img.getAttribute('data-default-url');
-    }
-}
-</script>
-<div class="college-detail">
+<body class="college-detail-page">
+  <script>
+  function handleImageError(img) {
+      // First try Clearbit logo if available
+      const clearbitUrl = img.getAttribute('data-clearbit-url');
+      if (clearbitUrl && clearbitUrl.trim() !== '') {
+          img.onerror = function() {
+              // If Clearbit also fails, use default logo
+              img.src = img.getAttribute('data-default-url');
+          };
+          img.src = clearbitUrl;
+      } else {
+          // If no Clearbit URL, go straight to default
+          img.src = img.getAttribute('data-default-url');
+      }
+  }
+  </script>
+  <div class="college-detail">
 
-  {% if college.photo_url and college.photo_url.strip() %}
-    {% set image_url = college.photo_url %}
-    {% set clearbit_url = 'https://logo.clearbit.com/' ~ college.website if college.website else '' %}
-  {% elif college.website %}
-    {% set image_url = 'https://logo.clearbit.com/' ~ college.website %}
-    {% set clearbit_url = '' %}
-  {% else %}
-    {% set image_url = url_for('static', filename='images/logo.png') %}
-    {% set clearbit_url = '' %}
-  {% endif %}
+    {% if college.photo_url and college.photo_url.strip() %}
+      {% set image_url = college.photo_url %}
+      {% set clearbit_url = 'https://logo.clearbit.com/' ~ college.website if college.website else '' %}
+    {% elif college.website %}
+      {% set image_url = 'https://logo.clearbit.com/' ~ college.website %}
+      {% set clearbit_url = '' %}
+    {% else %}
+      {% set image_url = url_for('static', filename='images/logo.png') %}
+      {% set clearbit_url = '' %}
+    {% endif %}
 
-  <!-- Hero Section - Image and Text Only -->
-  <div class="hero-section">
-    <div class="hero-image">
-      <img src="{{ image_url }}"
-           alt="Image of {{ college.name }}"
-           class="college-image"
-           data-clearbit-url="{{ clearbit_url }}"
-           data-default-url="{{ url_for('static', filename='images/logo.png') }}"
-           onerror="handleImageError(this);">
-    </div>
-    <div class="college-header">
-      <h1>{{ college.name }}</h1>
-      <p class="description">{{ college.description or 'No description available for this college.' }}</p>
-      <!-- Add to List button and dropdown for college detail -->
-      <div style="margin: 1.5em 0;">
-        <div class="add-to-list-btn-wrapper" style="position: relative; display: inline-block;">
-          <button class="add-to-list-btn" data-college-id="{{ college.id }}">Add to List</button>
-          <div class="list-dropdown" data-college-id="{{ college.id }}">
-            <form class="add-to-list-form">
-              <div class="user-lists-menu">
-                <div class="dropdown-section-title">Your Lists</div>
-                <ul class="user-lists">
-                  {% for user_list in user_lists %}
-                    <li>
-                      <button type="button" class="add-to-list-option" data-list-id="{{ user_list.id }}" data-college-id="{{ college.id }}">
-                        {{ user_list.name }}
-                      </button>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-              <input type="text" class="new-list-name" placeholder="New list name">
-              <div class="form-buttons">
-                <button type="button" class="create-list-btn">Create New List</button>
-                <button type="submit" class="add-to-list-submit">Add to List</button>
-              </div>
-            </form>
+    <!-- Hero Section - Image and Text Only -->
+    <div class="hero-section">
+      <div class="hero-image">
+        <img src="{{ image_url }}"
+            alt="Image of {{ college.name }}"
+            class="college-image"
+            data-clearbit-url="{{ clearbit_url }}"
+            data-default-url="{{ url_for('static', filename='images/logo.png') }}"
+            onerror="handleImageError(this);">
+      </div>
+      <div class="college-header">
+        <h1>{{ college.name }}</h1>
+        <p class="description">{{ college.description or 'No description available for this college.' }}</p>
+        <!-- Add to List button and dropdown for college detail -->
+        <div style="margin: 1.5em 0;">
+          <div class="add-to-list-btn-wrapper" style="position: relative; display: inline-block;">
+            <button class="add-to-list-btn" data-college-id="{{ college.id }}">Add to List</button>
+            <div class="list-dropdown" data-college-id="{{ college.id }}">
+              <form class="add-to-list-form">
+                <div class="user-lists-menu">
+                  <div class="dropdown-section-title">Your Lists</div>
+                  <ul class="user-lists">
+                    {% for user_list in user_lists %}
+                      <li>
+                        <button type="button" class="add-to-list-option" data-list-id="{{ user_list.id }}" data-college-id="{{ college.id }}">
+                          {{ user_list.name }}
+                        </button>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <input type="text" class="new-list-name" placeholder="New list name">
+                <div class="form-buttons">
+                  <button type="button" class="create-list-btn">Create New List</button>
+                  <button type="submit" class="add-to-list-submit">Add to List</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Information Sections Container -->
-  <div class="info-sections">
-    <!-- Left Column: Quick Facts, Financials, Cost, Contact -->
-    <div class="left-column">
-      <h3>General Information</h3>
+    <!-- Information Sections Container -->
+    <div class="info-sections">
+      <!-- Left Column: Quick Facts, Financials, Cost, Contact -->
+      <div class="left-column">
+        <h3>General Information</h3>
 
-      <ul>
-        <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
-        <li><strong>Type:</strong> {{ 'Public' if college.control == 1 else 'Private' }}</li>
-        {% if college.undergrad_population %}<li><strong>Undergrads:</strong> {{ "{:,}".format(college.undergrad_population) }}</li>{% endif %}
+        <ul>
+          <li><strong>Location:</strong> {{ college.city }}, {{ college.state }}</li>
+          <li><strong>Type:</strong> {{ 'Public' if college.control == 1 else 'Private' }}</li>
+          {% if college.undergrad_population %}<li><strong>Undergrads:</strong> {{ "{:,}".format(college.undergrad_population) }}</li>{% endif %}
 
-        <!-- Carnegie Size & Setting -->
-        {% set ccsizset_labels = {
-          1: "Very small, primarily nonresidential",
-          2: "Very small, primarily residential",
-          3: "Very small, highly residential",
-          4: "Small, primarily nonresidential",
-          5: "Small, primarily residential",
-          6: "Small, highly residential",
-          7: "Medium, primarily nonresidential",
-          8: "Medium, primarily residential",
-          9: "Medium, highly residential",
-          10: "Large, primarily nonresidential",
-          11: "Large, primarily residential",
-          12: "Large, highly residential",
-          13: "Very large, primarily nonresidential",
-          14: "Very large, primarily residential",
-          15: "Very large, highly residential",
-          17: "Extremely large, primarily nonresidential",
-          18: "Extremely large, primarily residential",
-          19: "Extremely large, highly residential"
-        } %}
-        {% if college.carnegie_size_class is not none %}
-          <li><strong>Campus Size/Setting:</strong> {{ ccsizset_labels.get(college.carnegie_size_class, 'Unknown') }}</li>
-        {% endif %}
-
-        <!-- Geographic Setting -->
-        {% if college.locale %}
-          {% set locale_labels = {
-            11: "Large City",
-            12: "Mid-size City", 
-            13: "Small City",
-            21: "Large Suburb",
-            22: "Mid-size Suburb",
-            23: "Small Suburb",
-            31: "Fringe Town",
-            32: "Distant Town",
-            33: "Remote Town",
-            41: "Fringe Rural",
-            42: "Distant Rural",
-            43: "Remote Rural"
+          <!-- Carnegie Size & Setting -->
+          {% set ccsizset_labels = {
+            1: "Very small, primarily nonresidential",
+            2: "Very small, primarily residential",
+            3: "Very small, highly residential",
+            4: "Small, primarily nonresidential",
+            5: "Small, primarily residential",
+            6: "Small, highly residential",
+            7: "Medium, primarily nonresidential",
+            8: "Medium, primarily residential",
+            9: "Medium, highly residential",
+            10: "Large, primarily nonresidential",
+            11: "Large, primarily residential",
+            12: "Large, highly residential",
+            13: "Very large, primarily nonresidential",
+            14: "Very large, primarily residential",
+            15: "Very large, highly residential",
+            17: "Extremely large, primarily nonresidential",
+            18: "Extremely large, primarily residential",
+            19: "Extremely large, highly residential"
           } %}
-          <li><strong>Setting:</strong> {{ locale_labels.get(college.locale, "Urban") }}</li>
-        {% endif %}
+          {% if college.carnegie_size_class is not none %}
+            <li><strong>Campus Size/Setting:</strong> {{ ccsizset_labels.get(college.carnegie_size_class, 'Unknown') }}</li>
+          {% endif %}
 
-        {% if college.is_hbcu %}<li>Historically Black College/University</li>{% endif %}
-        {% if college.is_annhi %}<li>AANAPISI-designated</li>{% endif %}
-        {% if college.is_hsi %}<li>Hispanic-Serving Institution</li>{% endif %}
-        {% if college.is_women_only %}<li>Women Only</li>{% elif college.is_men_only %}<li>Men Only</li>{% endif %}
-      </ul>
+          <!-- Geographic Setting -->
+          {% if college.locale %}
+            {% set locale_labels = {
+              11: "Large City",
+              12: "Mid-size City", 
+              13: "Small City",
+              21: "Large Suburb",
+              22: "Mid-size Suburb",
+              23: "Small Suburb",
+              31: "Fringe Town",
+              32: "Distant Town",
+              33: "Remote Town",
+              41: "Fringe Rural",
+              42: "Distant Rural",
+              43: "Remote Rural"
+            } %}
+            <li><strong>Setting:</strong> {{ locale_labels.get(college.locale, "Urban") }}</li>
+          {% endif %}
 
-      <h3>Student Diversity</h3>
-      <ul>
-        <!-- Student Body Diversity -->
-        {% if college.pct_white or college.pct_black or college.pct_hispanic or college.pct_asian %}
-          <li><strong>Student Body:</strong>
-            {% if college.pct_white %}{{ (college.pct_white * 100) | round(1) }}% White,{% endif %}
-            {% if college.pct_black %}{{ (college.pct_black * 100) | round(1) }}% Black,{% endif %}
-            {% if college.pct_hispanic %}{{ (college.pct_hispanic * 100) | round(1) }}% Hispanic,{% endif %}
-            {% if college.pct_asian %}{{ (college.pct_asian * 100) | round(1) }}% Asian{% endif %}
-          </li>
-        {% endif %}
-        
-        <!-- International Students -->
-        {% if college.pct_nonresident_alien %}
-          <li><strong>International Students:</strong> {{ (college.pct_nonresident_alien * 100) | round(1) }}%</li>
-        {% endif %}
-      </ul>
+          {% if college.is_hbcu %}<li>Historically Black College/University</li>{% endif %}
+          {% if college.is_annhi %}<li>AANAPISI-designated</li>{% endif %}
+          {% if college.is_hsi %}<li>Hispanic-Serving Institution</li>{% endif %}
+          {% if college.is_women_only %}<li>Women Only</li>{% elif college.is_men_only %}<li>Men Only</li>{% endif %}
+        </ul>
 
-      <h3>Contact</h3>
-      <ul>
-        {% if college.website %}<li><a href="https://{{ college.website }}" target="_blank">Visit Website</a></li>{% endif %}
-        <li>{{ college.city }}, {{ college.state }} {{ college.zip }}</li>
-      </ul>
-    </div>
+        <h3>Student Diversity</h3>
+        <ul>
+          <!-- Student Body Diversity -->
+          {% if college.pct_white or college.pct_black or college.pct_hispanic or college.pct_asian %}
+            <li><strong>Student Body:</strong>
+              {% if college.pct_white %}{{ (college.pct_white * 100) | round(1) }}% White,{% endif %}
+              {% if college.pct_black %}{{ (college.pct_black * 100) | round(1) }}% Black,{% endif %}
+              {% if college.pct_hispanic %}{{ (college.pct_hispanic * 100) | round(1) }}% Hispanic,{% endif %}
+              {% if college.pct_asian %}{{ (college.pct_asian * 100) | round(1) }}% Asian{% endif %}
+            </li>
+          {% endif %}
+          
+          <!-- International Students -->
+          {% if college.pct_nonresident_alien %}
+            <li><strong>International Students:</strong> {{ (college.pct_nonresident_alien * 100) | round(1) }}%</li>
+          {% endif %}
+        </ul>
 
-    <!-- Right Column: Academics, Campus Life -->
-    <div class="right-column">
-      <h3>Academics</h3>
-      {% set degree_labels = {
-        0: "Non-degree granting",
-        1: "Certificate",
-        2: "Associate's Degree",
-        3: "Bachelor's Degree",
-        4: "Graduate Degree"
-      } %}
-      <ul>
-        {% if college.graduation_rate_150 %}
-          <li><strong>Graduation Rate:</strong> {{ (college.graduation_rate_150 * 100) | round(1) }}% (within 6 years)</li>
-        {% endif %}
-        {% if college.retention_rate_ft %}
-          <li><strong>Freshman Retention:</strong> {{ (college.retention_rate_ft * 100) | round(1) }}%</li>
-        {% endif %}
-        {% if college.highest_degree is not none %}
-          <li><strong>Highest Degree Offered:</strong> {{ degree_labels.get(college.highest_degree, "Unknown") }}</li>
-        {% endif %}
+        <h3>Contact</h3>
+        <ul>
+          {% if college.website %}<li><a href="https://{{ college.website }}" target="_blank">Visit Website</a></li>{% endif %}
+          <li>{{ college.city }}, {{ college.state }} {{ college.zip }}</li>
+        </ul>
+      </div>
 
-        <!-- Carnegie Basic Classification -->
-        {% set ccbasic_labels = {
-          15: "Doctoral University – Very High Research Activity",
-          16: "Doctoral University – High Research Activity",
-          17: "Doctoral/Professional Universities",
-          18: "Master’s College & Universities: Larger Programs",
-          19: "Master’s College & Universities: Medium Programs",
-          20: "Master’s College & Universities: Smaller Programs",
-          21: "Baccalaureate College: Arts & Sciences Focus",
-          22: "Baccalaureate College: Diverse Fields",
-          23: "Associate’s College",
-          24: "Special Focus: Two-Year Institution",
-          25: "Special Focus: Medical School & Centers",
-          26: "Special Focus: Other Health Professions School",
-          27: "Special Focus: Engineering School",
-          28: "Special Focus: Other Technology-Related School",
-          29: "Special Focus: Business & Management School",
-          30: "Special Focus: Arts, Music & Design School",
-          31: "Special Focus: Law School",
-          32: "Special Focus: Other Special Focus Institution",
-          33: "Tribal College"
+      <!-- Right Column: Academics, Campus Life -->
+      <div class="right-column">
+        <h3>Academics</h3>
+        {% set degree_labels = {
+          0: "Non-degree granting",
+          1: "Certificate",
+          2: "Associate's Degree",
+          3: "Bachelor's Degree",
+          4: "Graduate Degree"
         } %}
-        {% if college.carnegie_basic_class is not none %}
-          <li><strong>Institution Type:</strong> {{ ccbasic_labels.get(college.carnegie_basic_class, 'Other/Unknown') }}</li>
-        {% endif %}
-      </ul>
+        <ul>
+          {% if college.graduation_rate_150 %}
+            <li><strong>Graduation Rate:</strong> {{ (college.graduation_rate_150 * 100) | round(1) }}% (within 6 years)</li>
+          {% endif %}
+          {% if college.retention_rate_ft %}
+            <li><strong>Freshman Retention:</strong> {{ (college.retention_rate_ft * 100) | round(1) }}%</li>
+          {% endif %}
+          {% if college.highest_degree is not none %}
+            <li><strong>Highest Degree Offered:</strong> {{ degree_labels.get(college.highest_degree, "Unknown") }}</li>
+          {% endif %}
 
-      <h3>Annual Cost</h3>
-      <ul>
-        {% if college.tuition_in_state %}<li><strong>In-State Tuition:</strong> ${{ "{:,}".format(college.tuition_in_state) }}</li>{% endif %}
-        {% if college.tuition_out_of_state %}<li><strong>Out-of-State Tuition:</strong> ${{ "{:,}".format(college.tuition_out_of_state) }}</li>{% endif %}
-        {% if college.cost_of_attendance %}<li><strong>Average Net Price:</strong> ${{ "{:,}".format(college.cost_of_attendance) }}</li>{% endif %}
-      </ul>
+          <!-- Carnegie Basic Classification -->
+          {% set ccbasic_labels = {
+            15: "Doctoral University – Very High Research Activity",
+            16: "Doctoral University – High Research Activity",
+            17: "Doctoral/Professional Universities",
+            18: "Master’s College & Universities: Larger Programs",
+            19: "Master’s College & Universities: Medium Programs",
+            20: "Master’s College & Universities: Smaller Programs",
+            21: "Baccalaureate College: Arts & Sciences Focus",
+            22: "Baccalaureate College: Diverse Fields",
+            23: "Associate’s College",
+            24: "Special Focus: Two-Year Institution",
+            25: "Special Focus: Medical School & Centers",
+            26: "Special Focus: Other Health Professions School",
+            27: "Special Focus: Engineering School",
+            28: "Special Focus: Other Technology-Related School",
+            29: "Special Focus: Business & Management School",
+            30: "Special Focus: Arts, Music & Design School",
+            31: "Special Focus: Law School",
+            32: "Special Focus: Other Special Focus Institution",
+            33: "Tribal College"
+          } %}
+          {% if college.carnegie_basic_class is not none %}
+            <li><strong>Institution Type:</strong> {{ ccbasic_labels.get(college.carnegie_basic_class, 'Other/Unknown') }}</li>
+          {% endif %}
+        </ul>
 
-      <h3>Admissions Information</h3>
-      <ul>
-        {% if college.admission_rate %}<li><strong>Admission Rate:</strong> {{ (college.admission_rate * 100) | round(1) }}%</li>{% endif %}
-        {% if college.sat_avg %}
-          <li><strong>SAT Average:</strong> {{ college.sat_avg }}</li>
-        {% endif %}
-        {% if college.act_composite_25 %}
-          <li><strong>ACT Composite (25th Percentile):</strong> {{ college.act_composite_25 }}</li>
-        {% endif %}
-      </ul>
+        <h3>Annual Cost</h3>
+        <ul>
+          {% if college.tuition_in_state %}<li><strong>In-State Tuition:</strong> ${{ "{:,}".format(college.tuition_in_state) }}</li>{% endif %}
+          {% if college.tuition_out_of_state %}<li><strong>Out-of-State Tuition:</strong> ${{ "{:,}".format(college.tuition_out_of_state) }}</li>{% endif %}
+          {% if college.cost_of_attendance %}<li><strong>Average Net Price:</strong> ${{ "{:,}".format(college.cost_of_attendance) }}</li>{% endif %}
+        </ul>
+
+        <h3>Admissions Information</h3>
+        <ul>
+          {% if college.admission_rate %}<li><strong>Admission Rate:</strong> {{ (college.admission_rate * 100) | round(1) }}%</li>{% endif %}
+          {% if college.sat_avg %}
+            <li><strong>SAT Average:</strong> {{ college.sat_avg }}</li>
+          {% endif %}
+          {% if college.act_composite_25 %}
+            <li><strong>ACT Composite (25th Percentile):</strong> {{ college.act_composite_25 }}</li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
   </div>
-</div>
-<script src="{{ url_for('static', filename='js/add-to-list.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/add-to-list.js') }}"></script>
+</body>
+
 {% endblock %}

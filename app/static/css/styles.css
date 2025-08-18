@@ -99,8 +99,24 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--space-sm) 0;
 }
 /* ===== Add to List Dropdown & Button (Container-based, close to button) ===== */
-.college-card {
+.list-college-card {
+  background: #fff;
+  border: 2px solid var(--primary-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  transition: box-shadow 0.2s, border-color 0.2s;
   position: relative;
+  overflow: hidden;
+}
+
+.list-college-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-300);
+}
+.list-college-card h3 {
+  line-height: 1.6;
 }
 
 .add-to-list-btn {
@@ -108,14 +124,15 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 0.4em 1em;
-  margin-left: 1em;
-  margin-right: 1em;
-  cursor: pointer;
+  padding: 0.4em 1.2em;
   font-size: 1em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-width: 80px;
+  min-height: 40px;
+  cursor: pointer;
   transition: background 0.2s;
   line-height: 1.6;
-}
+} 
 
 .college-detail .add-to-list-btn{
   min-height: 40px;
@@ -130,6 +147,15 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   display: inline-block;
 }
+
+.recommendations-page .list-dropdown{
+  max-height: 250px;
+}
+
+.college-detail-page .list-dropdown{
+  max-height: 250px;
+}
+
 .list-dropdown {
   position: absolute;
   bottom: 0;
@@ -654,14 +680,14 @@ nav .welcome-msg {
 
 .colleges-filters input[type="range"] {
   width: 100%;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 0.25rem;
 }
 
 .colleges-filters label {
   font-size: 1rem;
   color: var(--neutral-700);
   display: block;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 0.2em;
   cursor: pointer;
 }
 
@@ -996,13 +1022,390 @@ nav .welcome-msg {
   line-height: 1.6;
   background: var(--primary-700, #1d4ed8) !important;
   box-shadow: var(--shadow-md);
+}
 
-@media (max-width: 900px) {
-  .recommendations-container {
-    flex-direction: column;
-  }
-  .recommendations-form, .recommendations-results {
-    width: 100%;
-    margin-bottom: var(--space-lg);
-  }
+/* ===== MY LISTS PAGE ===== */
+.my-lists-container {
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.my-lists-form {
+  margin-bottom: var(--space-lg);
+}
+
+.my-lists-form h2 {
+  font-size: 2rem;
+  color: var(--primary-700);
+  margin-bottom: var(--space-md);
+}
+
+.my-lists-form form {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.my-lists-form input[name="name"] {
+  flex: 1;
+  padding: 0.5em 1em;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-300);
+  font-size: 1em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.my-lists-form button[type="submit"] {
+  background: var(--primary-600, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4em 1.2em;
+  font-size: 0.95em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-width: 80px;
+  min-height: 40px;
+  cursor: pointer;
+  transition: background 0.2s;
+  line-height: 1.6;
+}
+.my-lists-form button[type="submit"]:hover {
+  background: var(--primary-700, #1d4ed8);
+}
+
+.my-lists-container ul {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-lg);
+}
+.my-lists-container li {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: 0.7em 1.2em;
+  margin-bottom: 0.7em;
+  box-shadow: var(--shadow-sm);
+  font-size: 1.08em;
+  color: var(--neutral-800);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== MY LISTS PAGE - ENHANCED DESIGN ===== */
+.my-lists-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+.my-lists-header h2 {
+  font-size: 2.2rem;
+  color: var(--primary-700);
+  margin-bottom: 0.3em;
+}
+.my-lists-desc {
+  color: var(--neutral-600);
+  font-size: 1.08em;
+  margin-bottom: 0.5em;
+}
+.my-list-card {
+  background: var(--neutral-50);
+  border-radius: var(--radius-md);
+  padding: 1em 1.5em;
+  margin-bottom: 1em;
+  box-shadow: var(--shadow-sm);
+  font-size: 1.08em;
+  color: var(--neutral-800);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: box-shadow 0.2s;
+}
+.my-list-card:hover {
+  box-shadow: var(--shadow-md);
+}
+.my-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.my-list-name {
+  font-weight: 600;
+  font-size: 1.15em;
+  color: var(--primary-700);
+}
+.my-list-count {
+  font-size: 0.98em;
+  color: var(--neutral-500);
+}
+.my-list-actions {
+  display: flex;
+  gap: 0.5em;
+}
+.my-list-actions .btn {
+  padding: 0.3em 0.9em;
+  font-size: 1em;
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.my-list-actions .btn-primary {
+  background: var(--primary-600);
+  color: #fff;
+}
+.my-list-actions .btn-secondary {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  border: 1px solid var(--neutral-200);
+}
+.my-list-actions .btn-primary:hover {
+  background: var(--primary-700);
+}
+.my-list-actions .btn-secondary:hover {
+  background: var(--neutral-200);
+  color: var(--neutral-800);
+}
+.my-list-empty {
+  text-align: center;
+  padding: 2.5em 0;
+  color: var(--neutral-400);
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== COLLEGES LIST FILTERS ENHANCED ===== */
+.colleges-filters .filter-label {
+  display: block;
+  font-size: 1.08em;
+  font-weight: 600;
+  color: var(--primary-700);
+  margin-top: 1.1em;
+  margin-bottom: 0.3em;
+}
+.colleges-filters .filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em 1.5em;
+  margin-bottom: 0.7em;
+  align-items: center;
+}
+
+/* Vertical column for specialties and selectivity filter groups */
+.colleges-filters .filter-group.specialties,
+.colleges-filters .filter-group.selectivity {
+  flex-direction: column;
+  gap: 0.3em;
+  align-items: flex-start;
+}
+
+.colleges-filters input[type="range"] {
+  width: 70%;
+  margin-right: 1em;
+}
+.colleges-filters #costLabel {
+  font-size: 1.08em;
+  font-weight: 500;
+  color: var(--primary-700);
+  background: var(--neutral-100);
+  border-radius: var(--radius-md);
+  padding: 0.2em 0.7em;
+  margin-left: 0.2em;
+  min-width: 80px;
+  display: inline-block;
+  text-align: center;
+}
+.colleges-filters select {
+  margin-bottom: 1em;
+}
+.colleges-filters label {
+  font-size: 1em;
+  color: var(--neutral-700);
+  margin-bottom: 0.2em;
+}
+
+/* ===== MY LISTS DELETE MODAL ===== */
+.delete-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delete-modal-backdrop {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30,41,59,0.25);
+  z-index: 1;
+}
+.delete-modal-content {
+  position: relative;
+  z-index: 2;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 2.2em 2.5em 1.5em 2.5em;
+  min-width: 320px;
+  max-width: 90vw;
+  text-align: center;
+}
+.delete-modal-title {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--error);
+  margin-bottom: 0.7em;
+}
+.delete-modal-message {
+  font-size: 1.08em;
+  color: var(--neutral-700);
+  margin-bottom: 1.2em;
+}
+.delete-modal-actions {
+  display: flex;
+  gap: 1.2em;
+  justify-content: center;
+}
+.delete-modal-actions .btn {
+  min-width: 90px;
+  font-size: 1em;
+  padding: 0.5em 1.2em;
+}
+.delete-modal-actions .btn-primary {
+  background: var(--error);
+  color: #fff;
+}
+.delete-modal-actions .btn-primary:hover {
+  background: #b91c1c;
+}
+
+.remove-btn {
+  background: #fff;
+  color: #000000;
+  border-width: 3px;
+  border-color: #000000;
+  border-radius: 6px;
+  padding: 0.4em 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 700;
+  transition: background 0.2s;
+  line-height: 1.6;
+}
+
+.remove-btn:hover {
+  background: #ff4747;
+}
+
+.confirm-remove-btn {
+  background: #fff;
+  color: #000000;
+  border-width: 3px;
+  border-color: #000000;
+  border-radius: 6px;
+  padding: 0.4em 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 700;
+  transition: background 0.2s;
+  line-height: 1.6;
+}
+
+.confirm-remove-btn:hover {
+  background: #ff4747;
+}
+
+/* ===== COLLEGE CARDS CONTAINER FOR LIST DETAIL PAGE ===== */
+.college-cards-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(340px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  overflow-y: auto;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-college-card {
+  background: #fff;
+  border: 2px solid var(--primary-100);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  min-height: 235px;
+  flex-direction: column;
+}
+
+.list-college-card h3{
+  font-size: 1.3em;
+}
+
+.list-college-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-300);
+}
+
+.cancel-remove-btn {
+  background: #fff;
+  color: #000000;
+  border-width: 3px;
+  border-color: #000000;
+  border-radius: 6px;
+  padding: 0.4em 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 700;
+  transition: background 0.2s;
+  line-height: 1.6;
+}
+.cancel-remove-btn:hover {
+  background: #e8e6e6;
+}
+
+/* ===== ENHANCED REMOVE CHECKBOX FOR COLLEGE CARD ===== */
+.college-card-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.college-card-content h3 {
+  margin-bottom: 0;
+}
+.remove-checkbox {
+  margin-left: auto;
+}
+.remove-checkbox {
+  display: none;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  accent-color: var(--error);
+  margin-left: 1em;
+  cursor: pointer;
+}
+.remove-checkbox.show {
+  display: inline-block !important;
 }

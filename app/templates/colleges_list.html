@@ -9,35 +9,45 @@
   <form method="get" action="{{ url_for('colleges.college_list') }}" class="colleges-filters">
     <h3>Filter</h3>
 
-    <strong>Search by College Name</strong>
-    <input type="text" name="search" value="{{ request.args.get('search', '') }}" placeholder="e.g. Stanford, Tech">
+    <label for="search" class="filter-label">College Name</label>
+    <input type="text" id="search" name="search" value="{{ request.args.get('search', '') }}" placeholder="e.g. Stanford, Tech">
 
-    <strong>Control Type</strong>
-    <label><input type="checkbox" name="control" value="public" {% if 'public' in request.args.getlist('control') %}checked{% endif %}> Public</label>
-    <label><input type="checkbox" name="control" value="private" {% if 'private' in request.args.getlist('control') %}checked{% endif %}> Private</label>
+    <label class="filter-label">Institution Type</label>
+    <div class="filter-group">
+      <label><input type="checkbox" name="control" value="public" {% if 'public' in request.args.getlist('control') %}checked{% endif %}> Public</label>
+      <label><input type="checkbox" name="control" value="private" {% if 'private' in request.args.getlist('control') %}checked{% endif %}> Private</label>
+    </div>
 
-    <strong>Max Cost of Attendance ($)</strong>
-    <input type="range" name="max_cost" min="0" max="120000" step="500"
+    <label for="max_cost" class="filter-label">Max Cost of Attendance</label>
+    <div class="filter-group">
+      <input type="range" id="max_cost" name="max_cost" min="0" max="120000" step="500"
           value="{{ request.args.get('max_cost', 120000) }}"
-          oninput="document.getElementById('costLabel').innerText = this.value">
-    <span id="costLabel">{{ request.args.get('max_cost', 120000) }}</span>
+          oninput="document.getElementById('costLabel').innerText = '$' + Number(this.value).toLocaleString()">
+      <span id="costLabel">${{ '{:,}'.format(request.args.get('max_cost', 120000)|int) }}</span>
+    </div>
 
-    <strong>Student Body Size</strong>
-    <label><input type="checkbox" name="size" value="small" {% if 'small' in request.args.getlist('size') %}checked{% endif %}> Small (&lt;5K)</label>
-    <label><input type="checkbox" name="size" value="medium" {% if 'medium' in request.args.getlist('size') %}checked{% endif %}> Medium (5K–15K)</label>
-    <label><input type="checkbox" name="size" value="large" {% if 'large' in request.args.getlist('size') %}checked{% endif %}> Large (&gt;15K)</label>
+    <label class="filter-label">Student Body Size</label>
+    <div class="filter-group">
+      <label><input type="checkbox" name="size" value="small" {% if 'small' in request.args.getlist('size') %}checked{% endif %}> Small (&lt;5K)</label>
+      <label><input type="checkbox" name="size" value="medium" {% if 'medium' in request.args.getlist('size') %}checked{% endif %}> Medium (5K–15K)</label>
+      <label><input type="checkbox" name="size" value="large" {% if 'large' in request.args.getlist('size') %}checked{% endif %}> Large (&gt;15K)</label>
+    </div>
 
-    <strong>Specialties</strong>
-    {% for spec in ['All-Women', 'All-Men', 'AANAPISI', 'HBCU', 'NATIVE AMERICAN'] %}
-      <label><input type="checkbox" name="specialties" value="{{ spec }}" {% if spec in request.args.getlist('specialties') %}checked{% endif %}> {{ spec }}</label>
-    {% endfor %}
+    <label class="filter-label">Specialties</label>
+    <div class="filter-group specialties">
+      {% for spec in ['All-Women', 'All-Men', 'AANAPISI', 'HBCU', 'NATIVE AMERICAN'] %}
+        <label><input type="checkbox" name="specialties" value="{{ spec }}" {% if spec in request.args.getlist('specialties') %}checked{% endif %}> {{ spec }}</label>
+      {% endfor %}
+    </div>
 
-    <strong>Selectivity</strong>
-    {% for level in ['Extremely Selective', 'Very Selective', 'Selective', 'Average', 'Safety'] %}
-      <label><input type="checkbox" name="selectivity" value="{{ level }}" {% if level in request.args.getlist('selectivity') %}checked{% endif %}> {{ level }}</label>
-    {% endfor %}
+    <label class="filter-label">Selectivity</label>
+    <div class="filter-group selectivity">
+      {% for level in ['Extremely Selective', 'Very Selective', 'Selective', 'Average', 'Safety'] %}
+        <label><input type="checkbox" name="selectivity" value="{{ level }}" {% if level in request.args.getlist('selectivity') %}checked{% endif %}> {{ level }}</label>
+      {% endfor %}
+    </div>
 
-    <label for="state"><strong>State</strong></label>
+    <label for="state" class="filter-label">State</label>
     <select name="state" id="state">
       <option value="">All</option>
       {% for abbr in [

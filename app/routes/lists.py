@@ -25,6 +25,12 @@ def create_list():
     db.session.commit()
     return redirect(url_for('lists.my_lists'))
 
+@lists_bp.route('/lists/<int:list_id>')
+def list_detail(list_id):
+    college_list = CollegeList.query.get_or_404(list_id)
+    colleges = [College.query.get(entry.college_id) for entry in college_list.colleges]
+    return render_template('list_detail.html', college_list=college_list, colleges=colleges)
+
 @lists_bp.route('/lists/<int:list_id>/add', methods=['POST'])
 @login_required
 # Add a college to a specific list (form submission)
@@ -118,4 +124,22 @@ def api_remove_college_from_list(list_id, college_id):
     db.session.delete(entry)
     db.session.commit()
     return jsonify({'success': True})
+
+#list details bp
+@lists_bp.route('/lists/<int:list_id>/remove', methods=['POST'])
+@login_required
+
+def remove_colleges(list_id):
+    college_list = CollegeList.query.get_or_404(list_id)
+    college_ids = request.form.getlist('college_ids')
+    if not college_ids:
+        flash('No colleges selected for removal.', 'error')
+        return redirect(url_for('lists.list_detail', list_id=list_id))
+    for college_id in college_ids:
+        entry = next((e for e in college_list.colleges if e.college_id == int(college_id)), None)
+        if entry:
+            db.session.delete(entry)
+    db.session.commit()
+    flash(f'Removed {len(college_ids)} college(s) from the list.', 'success')
+    return redirect(url_for('lists.list_detail', list_id=list_id))
 

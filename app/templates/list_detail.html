@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="list-detail-layout" style="display: flex; align-items: flex-start;">
+    <div class="main-list-container" style="flex: 1;">
+        <div class="list-detail-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="list-title">{{ college_list.name }}</h2>
+            <button id="remove-from-list-btn" class="remove-btn">Remove from List</button>
+        </div>
+        <form id="remove-colleges-form" method="POST" action="{{ url_for('lists.remove_colleges', list_id=college_list.id) }}">
+            <div class="college-cards-container">
+                {% for college in colleges %}
+                <a href="{{ url_for('colleges.college_detail', college_id=college.id) }}" class="list-college-card-link" style="text-decoration: none; color: inherit;">
+                  <div class="list-college-card" style="position: relative;">
+                      <div class="college-card-content" style="display: flex; align-items: center; justify-content: space-between;">
+                          <h3 style="margin-bottom: 0;">{{ college.name }}</h3>
+                          <input type="checkbox" name="college_ids" value="{{ college.id }}" class="remove-checkbox" style="display:none; position: relative; width: 28px; height: 28px; margin-left: 1em;" />
+                      </div>
+                      <p>{{ college.city }}, {{ college.state }}</p>
+                      <p>{% if college.description %}{{ college.description.split('.')|first }}.{% endif %}</p>
+                  </div>
+                </a>
+                {% endfor %}
+            </div>
+            <div style="display: flex; gap: 1em; margin-top: 1em;">
+                <button type="submit" id="confirm-remove-btn" class="confirm-remove-btn" style="display:none;">Confirm Remove</button>
+                <button type="button" id="cancel-remove-btn" class="cancel-remove-btn" style="display:none;">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/list-detail.js') }}"></script>
+{% endblock %}

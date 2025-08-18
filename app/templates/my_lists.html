@@ -1,19 +1,36 @@
 {% extends "base.html" %}
 {% block title %}My Lists{% endblock %}
 {% block content %}
-
-<h2>My Lists</h2>
-<form method="post" action="{{ url_for('lists.create_list') }}">
-  <input name="name" placeholder="List name" required>
-  <button type="submit">Create</button>
-</form>
-
-<ul>
-  {% for l in lists %}
-    <li>{{ l.name }} ({{ l.colleges|length }} colleges)</li>
-  {% else %}
-    <li>No lists yet</li>
-  {% endfor %}
-</ul>
-
+<div class="my-lists-container">
+  <div class="my-lists-header">
+    <h2>My College Lists</h2>
+    <p class="my-lists-desc">Create and manage your personalized college lists. Add colleges, rename lists, or remove them as you plan your next steps.</p>
+  </div>
+  <div class="my-lists-form">
+    <form method="post" action="{{ url_for('lists.create_list') }}">
+      <input name="name" placeholder="New list name" required>
+      <button type="submit">Create List</button>
+    </form>
+  </div>
+  <ul>
+    {% for l in lists %}
+      <li class="my-list-card" data-list-id="{{ l.id }}">
+        <div class="my-list-info">
+            <span class="my-list-name"><a href="{{ url_for('lists.list_detail', list_id=l.id) }}">{{ l.name }}</a></span>
+          <span class="my-list-count">{{ l.colleges|length }} colleges</span>
+        </div>
+        <div class="my-list-actions">
+          <a href="#" class="btn btn-secondary btn-rename" title="Rename"><span>&#9998;</span></a>
+          <a href="#" class="btn btn-secondary btn-delete" title="Delete"><span>&#128465;</span></a>
+        </div>
+      </li>
+    {% else %}
+      <li class="my-list-empty">
+        <div class="empty-illustration" style="font-size:2.5em; color:var(--neutral-300);">&#128196;</div>
+        <div class="empty-message">No lists yet. Start by creating your first college list!</div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<script src="{{ url_for('static', filename='js/my-lists.js') }}"></script>
 {% endblock %}
