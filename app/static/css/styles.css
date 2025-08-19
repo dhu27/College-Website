@@ -1366,6 +1366,110 @@ nav .welcome-msg {
   border-color: var(--primary-300);
 }
 
+/* ===== AUTH PAGES (LOGIN & REGISTER) ===== */
+.auth-center-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+.auth-card {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 2.5em 2.5em 2em 2.5em;
+  min-width: 340px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.auth-title {
+  padding: 2.2em 2.2em 1.7em 2.2em;
+  min-width: 320px;
+  max-width: 350px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-align: center;
+}
+.auth-card label {
+  font-size: 1.08em;
+  color: var(--neutral-700);
+  font-weight: 500;
+  margin-bottom: 0.2em;
+  margin-top: 0.7em;
+  align-self: flex-start;
+}
+.auth-card input[type="text"],
+.auth-card input[type="email"],
+.auth-card input[type="password"] {
+  width: 100%;
+  padding: 0.7em 1em;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-300);
+  font-size: 1em;
+  margin-bottom: 0.7em;
+  background: var(--neutral-50);
+  box-sizing: border-box;
+}
+.auth-card button[type="submit"] {
+  background: var(--primary-600, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7em 1.2em;
+  font-size: 1.08em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-width: 80px;
+  min-height: 40px;
+  cursor: pointer;
+  transition: background 0.2s;
+  line-height: 1.6;
+  box-shadow: var(--shadow-md);
+  margin-top: 1.2em;
+}
+.auth-card button[type="submit"]:hover {
+  background: var(--primary-700, #1d4ed8);
+}
+
+.create-account-btn {
+  background: var(--secondary-500, #14b8a6);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: var(--shadow-lg);
+  border: none;
+  border-radius: 6px;
+  padding: 0.7em 1.2em;
+  font-size: 1.08em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-width: 80px;
+  min-height: 40px;
+  cursor: pointer;
+  transition: background 0.2s;
+  line-height: 1.6;
+  margin-top: 1.2em;
+}
+.create-account-btn:hover {
+  background: var(--secondary-700, #0f766e);
+}
+.auth-link {
+  margin-top: 1.5em;
+  font-size: 1em;
+  color: var(--neutral-600);
+  text-align: center;
+}
+.auth-link a {
+  color: var(--primary-600);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.auth-link a:hover {
+  color: var(--primary-700);
+}
+
 .cancel-remove-btn {
   background: #fff;
   color: #000000;
